@@ -84,12 +84,12 @@ export function SavingsCalculator() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
-      <div className="hero bg-gradient-to-r from-secondary via-accent to-primary rounded-box shadow-2xl hover:shadow-secondary/50 transition-all duration-500 border border-secondary/30 relative overflow-hidden group">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+      <div className="hero bg-base-200/20 backdrop-blur-md rounded-box shadow-2xl border border-white/10 relative overflow-hidden group hover:border-success/40 transition-all duration-500">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-success/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
-            <h2 className="text-5xl font-bold mb-3 bg-gradient-to-r from-base-content via-secondary to-accent bg-clip-text text-transparent">Savings Calculator</h2>
-            <p className="text-lg opacity-90 max-w-md">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-base-content">Savings Calculator</h2>
+            <p className="text-lg text-base-content/80 max-w-md">
               Project your savings growth and visualize compound interest
             </p>
           </div>
@@ -99,23 +99,23 @@ export function SavingsCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input Form */}
         <div className="lg:col-span-1">
-          <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl border border-secondary/20 hover:border-secondary/50 transition-all duration-500">
+          <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-success/40 transition-all duration-500">
             <div className="card-body space-y-4">
-              <h3 className="card-title text-secondary flex items-center gap-2">
-                <span className="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+              <h3 className="card-title text-success flex items-center gap-2">
+                <span className="w-3 h-3 bg-success rounded-full animate-pulse"></span>
                 Savings Details
               </h3>
 
               {/* Initial Deposit */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold">Initial Deposit ($)</span>
+                    <span className="label-text font-semibold text-slate-800">Initial Deposit ($)</span>
                 </label>
                 <input
                   type="number"
                   value={initialDeposit}
                   onChange={(e) => setInitialDeposit(e.target.value)}
-                  className="input input-bordered input-secondary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg"
+                    className="input input-bordered input-success w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="5000"
                 />
               </div>
@@ -123,13 +123,13 @@ export function SavingsCalculator() {
               {/* Monthly Contribution */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold">Monthly Contribution ($)</span>
+                    <span className="label-text font-semibold text-slate-800">Monthly Contribution ($)</span>
                 </label>
                 <input
                   type="number"
                   value={monthlyContribution}
                   onChange={(e) => setMonthlyContribution(e.target.value)}
-                  className="input input-bordered input-secondary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg"
+                    className="input input-bordered input-success w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="500"
                 />
               </div>
@@ -137,14 +137,14 @@ export function SavingsCalculator() {
               {/* Interest Rate */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold">Annual Interest Rate (%)</span>
+                    <span className="label-text font-semibold text-slate-800">Annual Interest Rate (%)</span>
                 </label>
                 <input
                   type="number"
                   step="0.1"
                   value={interestRate}
                   onChange={(e) => setInterestRate(e.target.value)}
-                  className="input input-bordered input-secondary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg"
+                    className="input input-bordered input-success w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="5.5"
                 />
               </div>
@@ -152,13 +152,13 @@ export function SavingsCalculator() {
               {/* Duration */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold">Time Period (Years)</span>
+                    <span className="label-text font-semibold text-slate-800">Time Period (Years)</span>
                 </label>
                 <input
                   type="number"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="input input-bordered input-secondary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg"
+                    className="input input-bordered input-success w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="10"
                 />
               </div>
@@ -167,14 +167,14 @@ export function SavingsCalculator() {
               <div className="card-actions flex-col pt-4">
                 <button
                   onClick={calculateSavings}
-                  className="btn btn-secondary btn-block gap-2 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-secondary/50"
+                  className="btn btn-success btn-block gap-2 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-success/50"
                 >
                   <Calculator className="w-5 h-5" />
                   Calculate
                 </button>
                 <button
                   onClick={resetCalculator}
-                  className="btn btn-ghost btn-block gap-2 hover:scale-105 transition-all duration-300"
+                  className="btn btn-outline btn-block gap-2 hover:scale-105 transition-all duration-300"
                 >
                   <RotateCcw className="w-5 h-5" />
                   Reset
@@ -188,32 +188,32 @@ export function SavingsCalculator() {
         <div className="lg:col-span-2 space-y-6">
           {/* Summary Cards */}
           {finalBalance !== null && (
-            <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-100/80 backdrop-blur-sm border border-secondary/20 animate-scaleIn">
-              <div className="stat hover:bg-secondary/10 transition-all duration-300 cursor-pointer group">
-                <div className="stat-figure text-secondary group-hover:scale-110 transition-transform duration-300 animate-bounce">
+            <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/20 backdrop-blur-md border border-white/10 animate-scaleIn">
+              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                <div className="stat-figure text-success group-hover:scale-110 transition-transform duration-300 animate-bounce">
                   <TrendingUp className="w-8 h-8 drop-shadow-lg" />
                 </div>
-                <div className="stat-title">Final Balance</div>
-                <div className="stat-value text-secondary text-2xl lg:text-3xl">
+                  <div className="stat-title text-slate-400">Final Balance</div>
+                <div className="stat-value text-success text-2xl lg:text-3xl">
                   ${finalBalance.toFixed(2)}
                 </div>
               </div>
 
-              <div className="stat hover:bg-primary/10 transition-all duration-300 cursor-pointer group">
+              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
                   <DollarSign className="w-8 h-8 drop-shadow-lg" />
                 </div>
-                <div className="stat-title">Total Contributions</div>
+                  <div className="stat-title text-slate-400">Total Contributions</div>
                 <div className="stat-value text-primary text-2xl lg:text-3xl">
                   ${totalContributions?.toFixed(2)}
                 </div>
               </div>
 
-              <div className="stat hover:bg-accent/10 transition-all duration-300 cursor-pointer group">
+              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-accent group-hover:scale-110 transition-transform duration-300">
                   <TrendingUp className="w-8 h-8 drop-shadow-lg" />
                 </div>
-                <div className="stat-title">Interest Earned</div>
+                  <div className="stat-title text-slate-400">Interest Earned</div>
                 <div className="stat-value text-accent text-2xl lg:text-3xl">
                   ${totalInterest?.toFixed(2)}
                 </div>
@@ -223,36 +223,37 @@ export function SavingsCalculator() {
 
           {/* Projection Chart */}
           {projectionData.length > 0 && (
-            <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl border border-secondary/20 hover:border-secondary/50 transition-all duration-500 animate-slideInUp">
+            <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-success/40 transition-all duration-500 animate-slideInUp">
               <div className="card-body">
-                <h3 className="card-title text-secondary flex items-center gap-2">
-                  <span className="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+                <h3 className="card-title text-success flex items-center gap-2">
+                  <span className="w-3 h-3 bg-success rounded-full animate-pulse"></span>
                   Savings Growth Projection
                 </h3>
               <ResponsiveContainer width="100%" height={350}>
                 <AreaChart data={projectionData}>
                   <defs>
                     <linearGradient id="colorContributions" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0f172a" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#0f172a" stopOpacity={0.1}/>
+                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#2563eb" stopOpacity={0.1}/>
                     </linearGradient>
                     <linearGradient id="colorInterestSavings" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0d9488" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#0d9488" stopOpacity={0.1}/>
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0.1}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis 
                     dataKey="year" 
-                    stroke="#6b7280"
+                      stroke="#64748b"
                     label={{ value: 'Year', position: 'insideBottom', offset: -5 }}
                   />
-                  <YAxis stroke="#6b7280" />
+                    <YAxis stroke="#64748b" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px'
+                        backgroundColor: '#0f172a', 
+                        border: '1px solid #334155',
+                        borderRadius: '8px',
+                        color: '#e2e8f0'
                     }}
                   />
                   <Legend />
@@ -260,7 +261,7 @@ export function SavingsCalculator() {
                     type="monotone" 
                     dataKey="contributions" 
                     stackId="1"
-                    stroke="#0f172a" 
+                      stroke="#2563eb" 
                     fillOpacity={1} 
                     fill="url(#colorContributions)" 
                   />
@@ -268,7 +269,7 @@ export function SavingsCalculator() {
                     type="monotone" 
                     dataKey="interest" 
                     stackId="1"
-                    stroke="#0d9488" 
+                      stroke="#10b981" 
                     fillOpacity={1} 
                     fill="url(#colorInterestSavings)" 
                   />

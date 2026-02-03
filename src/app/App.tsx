@@ -11,48 +11,60 @@ export default function App() {
   const [activeScreen, setActiveScreen] = useState<Screen>('dashboard');
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-base-300 via-base-100 to-base-300">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-base-100 via-base-200 to-base-100">
       <MagneticField />
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="navbar bg-base-100/80 backdrop-blur-lg shadow-2xl border-b border-primary/20 sticky top-0 z-50">
+        <div className="navbar bg-base-100/20 backdrop-blur-md shadow-2xl border-b border-white/10 sticky top-0 z-50\">
           <div className="navbar-start">
             <div className="flex items-center space-x-3">
               <div className="avatar placeholder">
-                <div className="bg-gradient-to-br from-accent to-secondary text-neutral-content rounded-lg w-7 animate-pulse flex items-center justify-center">
+                <div className="bg-gradient-to-br from-accent to-info text-base-100 rounded-lg w-8 animate-pulse flex items-center justify-center shadow-lg shadow-accent/20">
                   <Layers className="w-5 h-5" />
                 </div>
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-                Credi<span className="badge badge-primary badge-lg mx-1 animate-bounce">Calc</span>
+              <h1 className="text-2xl font-bold text-base-content">
+                Credi<span className="text-2xl font-bold text-accent">Calc</span>
               </h1>
             </div>
           </div>
 
           {/* Navigation */}
           <div className="navbar-end">
-            <div className="tabs tabs-boxed bg-base-200/50 backdrop-blur-sm p-1">
+            <div className="tabs tabs-boxed bg-base-200/20 backdrop-blur-md p-1 gap-1 border border-white/10">
               <button
                 onClick={() => setActiveScreen('dashboard')}
-                className={`tab gap-2 transition-all duration-300 ${activeScreen === 'dashboard' ? 'tab-active shadow-lg shadow-primary/50' : 'hover:text-primary hover:scale-105'}`}
+                className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'dashboard'
+                  ? 'tab-active bg-primary text-primary-content shadow-lg shadow-primary/40'
+                  : 'text-base-content/60 hover:text-primary hover:scale-105'
+                  }`}
               >
-                <LayoutDashboard className={`w-4 h-4 transition-transform ${activeScreen === 'dashboard' ? 'scale-110' : ''}`} />
-                <span className="hidden sm:inline">Dashboard</span>
+                <LayoutDashboard className={`w-4 h-4 transition-transform ${activeScreen === 'dashboard' ? 'scale-110' : ''
+                  }`} />
+                <span className="hidden sm:inline font-semibold">Dashboard</span>
               </button>
               <button
                 onClick={() => setActiveScreen('loan')}
-                className={`tab gap-2 transition-all duration-300 ${activeScreen === 'loan' ? 'tab-active shadow-lg shadow-accent/50' : 'hover:text-accent hover:scale-105'}`}
+                className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'loan'
+                  ? 'tab-active bg-accent text-base-100 shadow-lg shadow-accent/40'
+                  : 'text-base-content/60 hover:text-accent hover:scale-105'
+                  }`}
               >
-                <Calculator className={`w-4 h-4 transition-transform ${activeScreen === 'loan' ? 'scale-110' : ''}`} />
-                <span className="hidden sm:inline">Loan</span>
+                <Calculator className={`w-4 h-4 transition-transform ${activeScreen === 'loan' ? 'scale-110' : ''
+                  }`} />
+                <span className="hidden sm:inline font-semibold">Loan</span>
               </button>
               <button
                 onClick={() => setActiveScreen('savings')}
-                className={`tab gap-2 transition-all duration-300 ${activeScreen === 'savings' ? 'tab-active shadow-lg shadow-secondary/50' : 'hover:text-secondary hover:scale-105'}`}
+                className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'savings'
+                  ? 'tab-active bg-success text-base-100 shadow-lg shadow-success/40'
+                  : 'text-base-content/60 hover:text-success hover:scale-105'
+                  }`}
               >
-                <PiggyBank className={`w-4 h-4 transition-transform ${activeScreen === 'savings' ? 'scale-110' : ''}`} />
-                <span className="hidden sm:inline">Savings</span>
+                <PiggyBank className={`w-4 h-4 transition-transform ${activeScreen === 'savings' ? 'scale-110' : ''
+                  }`} />
+                <span className="hidden sm:inline font-semibold">Savings</span>
               </button>
             </div>
           </div>
