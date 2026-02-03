@@ -45,11 +45,11 @@ const generateAmortizationSchedule = () => {
 
 const amortizationSchedule = generateAmortizationSchedule();
 
-// Data for recent months chart (last 6 months)
+// Data for recent months chart (last 3 months)
 const currentDate = new Date(); // Current date (dynamic)
 const currentMonthIndex = Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
 const recentMonthsData = amortizationSchedule
-  .slice(Math.max(0, currentMonthIndex - 5), currentMonthIndex + 1)
+  .slice(Math.max(0, currentMonthIndex - 2), currentMonthIndex + 1)
   .map(item => ({
     month: item.monthLabel,
     remainingPrincipal: Math.round(item.remainingBalance),
@@ -158,7 +158,7 @@ export function Dashboard() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Principal Evolution */}
         <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500 group">
           <div className="card-body">
