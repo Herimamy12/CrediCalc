@@ -10,9 +10,9 @@ interface AmortizationData {
 }
 
 export function LoanCalculator() {
-  const [loanAmount, setLoanAmount] = useState('250000');
-  const [interestRate, setInterestRate] = useState('4.5');
-  const [duration, setDuration] = useState('30');
+  const [loanAmount, setLoanAmount] = useState('8900000');
+  const [interestRate, setInterestRate] = useState('20.0');
+  const [duration, setDuration] = useState('4');
   const [monthlyPayment, setMonthlyPayment] = useState<number | null>(null);
   const [totalInterest, setTotalInterest] = useState<number | null>(null);
   const [amortizationData, setAmortizationData] = useState<AmortizationData[]>([]);
@@ -68,7 +68,7 @@ export function LoanCalculator() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
-      <div className="hero bg-base-200/20 backdrop-blur-md rounded-box shadow-2xl border border-white/10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500">
+      <div className="hero bg-base-200/5 backdrop-blur-[3px] rounded-box shadow-2xl border border-white/3 relative overflow-hidden group hover:border-primary/40 transition-all duration-500">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
@@ -83,7 +83,7 @@ export function LoanCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input Form */}
         <div className="lg:col-span-1">
-          <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-primary/40 transition-all duration-500">
+          <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500">
             <div className="card-body space-y-4">
               <h3 className="card-title text-primary flex items-center gap-2">
                 <span className="w-3 h-3 bg-primary rounded-full animate-pulse"></span>
@@ -93,7 +93,7 @@ export function LoanCalculator() {
               {/* Loan Amount */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Loan Amount ($)</span>
+                    <span className="label-text font-semibold text-slate-800">Loan Amount (Ariary)</span>
                 </label>
                 <input
                   type="number"
@@ -158,8 +158,8 @@ export function LoanCalculator() {
         <div className="lg:col-span-2 space-y-6">
           {/* Summary Cards */}
           {monthlyPayment !== null && (
-            <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/20 backdrop-blur-md border border-white/10 animate-scaleIn">
-              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+            <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/5 backdrop-blur-[3px] border border-white/3 animate-scaleIn">
+              <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
                   <TrendingDown className="w-8 h-8 drop-shadow-lg" />
                 </div>
@@ -169,7 +169,7 @@ export function LoanCalculator() {
                 </div>
               </div>
 
-              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+              <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-success group-hover:scale-110 transition-transform duration-300">
                   <Calculator className="w-8 h-8 drop-shadow-lg" />
                 </div>
@@ -179,7 +179,7 @@ export function LoanCalculator() {
                 </div>
               </div>
 
-              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+              <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-accent group-hover:scale-110 transition-transform duration-300">
                   <TrendingDown className="w-8 h-8 drop-shadow-lg" />
                 </div>
@@ -193,7 +193,7 @@ export function LoanCalculator() {
 
           {/* Amortization Chart */}
           {amortizationData.length > 0 && (
-            <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-accent/40 transition-all duration-500 animate-slideInUp">
+            <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-accent/40 transition-all duration-500 animate-slideInUp">
               <div className="card-body">
                 <h3 className="card-title text-accent flex items-center gap-2">
                   <span className="w-3 h-3 bg-accent rounded-full animate-pulse"></span>
@@ -251,7 +251,7 @@ export function LoanCalculator() {
 
           {/* Empty State */}
           {monthlyPayment === null && (
-            <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl border border-primary/20 hover:border-primary/50 transition-all duration-500">
+            <div className="card bg-base-100/30 backdrop-blur-none shadow-2xl border border-primary/10 hover:border-primary/40 transition-all duration-500">
               <div className="card-body items-center text-center py-12">
                 <div className="avatar placeholder">
                   <div className="bg-gradient-to-br from-primary to-accent text-primary-content rounded-full w-20 animate-pulse shadow-lg shadow-primary/50">

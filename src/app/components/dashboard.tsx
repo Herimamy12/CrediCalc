@@ -1,27 +1,84 @@
-import { DollarSign, TrendingUp, CreditCard, Percent } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { DollarSign, TrendingUp, CreditCard, Percent, Calendar, Calculator } from 'lucide-react';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Area, AreaChart } from 'recharts';
 
-// Mock data for demonstration
-const savingsGrowthData = [
-  { month: 'Jan', amount: 5000 },
-  { month: 'Feb', amount: 6200 },
-  { month: 'Mar', amount: 7500 },
-  { month: 'Apr', amount: 9100 },
-  { month: 'May', amount: 10800 },
-  { month: 'Jun', amount: 12600 },
-];
+// Loan calculation with amortization
+const loanPrincipal = 8_900_000; // Ariary
+const annualInterestRate = 0.20; // 20% per year
+const monthlyInterestRate = annualInterestRate / 12;
+const loanDurationYears = 4;
+const loanDurationMonths = loanDurationYears * 12;
+const startDate = new Date('2024-01-01');
 
-const loanBreakdownData = [
-  { name: 'Personal Loan', amount: 15000, payment: 450 },
-  { name: 'Auto Loan', amount: 28000, payment: 580 },
-  { name: 'Home Loan', amount: 250000, payment: 1850 },
-];
+// Calculate monthly payment using amortization formula
+const monthlyPayment = loanPrincipal * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanDurationMonths)) / 
+                       (Math.pow(1 + monthlyInterestRate, loanDurationMonths) - 1);
+
+// Generate amortization schedule
+const generateAmortizationSchedule = () => {
+  let remainingBalance = loanPrincipal;
+  let totalInterestPaid = 0;
+  const schedule = [];
+
+  for (let month = 1; month <= loanDurationMonths; month++) {
+    const interestPayment = remainingBalance * monthlyInterestRate;
+    const principalPayment = monthlyPayment - interestPayment;
+    remainingBalance -= principalPayment;
+    totalInterestPaid += interestPayment;
+
+    const currentDate = new Date(startDate);
+    currentDate.setMonth(startDate.getMonth() + month);
+
+    schedule.push({
+      month,
+      date: currentDate,
+      monthLabel: currentDate.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }),
+      interestPayment,
+      principalPayment,
+      remainingBalance: Math.max(0, remainingBalance),
+      totalPaid: loanPrincipal - remainingBalance,
+      totalInterestPaid
+    });
+  }
+
+  return schedule;
+};
+
+const amortizationSchedule = generateAmortizationSchedule();
+
+// Data for recent months chart (last 6 months)
+const currentDate = new Date(); // Current date (dynamic)
+const currentMonthIndex = Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
+const recentMonthsData = amortizationSchedule
+  .slice(Math.max(0, currentMonthIndex - 5), currentMonthIndex + 1)
+  .map(item => ({
+    month: item.monthLabel,
+    remainingPrincipal: Math.round(item.remainingBalance),
+    paidPrincipal: Math.round(item.totalPaid)
+  }));
+
+// Current month summary
+const currentMonthData = amortizationSchedule[currentMonthIndex] || amortizationSchedule[amortizationSchedule.length - 1];
 
 export function Dashboard() {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value) + ' Ar';
+  };
+
+  // Dynamic date formatting
+  const loanStartFormatted = startDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const loanEndDate = new Date(startDate);
+  loanEndDate.setMonth(startDate.getMonth() + loanDurationMonths);
+  const loanEndFormatted = loanEndDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const currentMonthFormatted = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="hero bg-base-200/20 backdrop-blur-md rounded-box shadow-2xl border border-white/10 relative overflow-hidden group hover:border-accent/40 transition-all duration-500">
+      <div className="hero bg-base-200/5 backdrop-blur-[3px] rounded-box shadow-2xl border border-white/3 relative overflow-hidden group hover:border-accent/40 transition-all duration-500">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
@@ -33,161 +90,196 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/20 backdrop-blur-md border border-white/10">
-        {/* Total Loans Card */}
-        <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
-          <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
+      {/* Détails du Prêt */}
+      <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500">
+        <div className="card-body">
+          <h3 className="card-title text-primary flex items-center gap-2 mb-4">
+            <Calculator className="w-6 h-6" />
+            Loan Details ({loanStartFormatted})
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="stat bg-primary/10 rounded-lg p-4 border border-primary/20 hover:border-primary/40 transition-all">
+              <div className="stat-title text-base-content/70">Initial Principal</div>
+              <div className="stat-value text-primary text-2xl">{formatCurrency(loanPrincipal)}</div>
+              <div className="stat-desc text-base-content/60">Borrowed amount</div>
+            </div>
+            <div className="stat bg-error/10 rounded-lg p-4 border border-error/20 hover:border-error/40 transition-all">
+              <div className="stat-title text-base-content/70">Interest Rate</div>
+              <div className="stat-value text-error text-2xl">20%</div>
+              <div className="stat-desc text-base-content/60">Per year</div>
+            </div>
+            <div className="stat bg-info/10 rounded-lg p-4 border border-info/20 hover:border-info/40 transition-all">
+              <div className="stat-title text-base-content/70">Duration</div>
+              <div className="stat-value text-info text-2xl">4 Years</div>
+              <div className="stat-desc text-base-content/60">{loanDurationMonths} months</div>
+            </div>
+            <div className="stat bg-accent/10 rounded-lg p-4 border border-accent/20 hover:border-accent/40 transition-all">
+              <div className="stat-title text-base-content/70">Monthly Payment</div>
+              <div className="stat-value text-accent text-2xl">{formatCurrency(monthlyPayment)}</div>
+              <div className="stat-desc text-base-content/60">To pay each month</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Current Month Summary */}
+      <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/5 backdrop-blur-[3px] border border-white/3">
+        {/* Remaining Principal */}
+        <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-slate-400 group-hover:scale-110 transition-transform duration-300">
             <CreditCard className="w-8 h-8 drop-shadow-lg" />
           </div>
-            <div className="stat-title text-slate-400">Total Loans</div>
-          <div className="stat-value text-primary text-3xl lg:text-4xl">$293K</div>
-            <div className="stat-desc font-semibold text-slate-500">3 active loans</div>
+          <div className="stat-title text-slate-400">Remaining Principal</div>
+          <div className="stat-value text-slate-300 text-3xl lg:text-4xl">{formatCurrency(currentMonthData.remainingBalance)}</div>
+          <div className="stat-desc font-semibold text-slate-500">{currentMonthFormatted}</div>
         </div>
 
-        {/* Savings Balance Card */}
-        <div className="stat hover:bg-base-300 transition-all duration-300 cursor-pointer group">
-          <div className="stat-figure text-success group-hover:scale-110 transition-transform duration-300 animate-bounce">
+        {/* Paid Principal */}
+        <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-blue-400 group-hover:scale-110 transition-transform duration-300">
             <TrendingUp className="w-8 h-8 drop-shadow-lg" />
           </div>
-            <div className="stat-title text-slate-400">Savings Balance</div>
-          <div className="stat-value text-success text-3xl lg:text-4xl">$12.6K</div>
-            <div className="stat-desc text-slate-300 font-semibold">↗︎ 18% this month</div>
-        </div>
-
-        {/* Monthly Payments Card */}
-        <div className="stat hover:bg-base-300 transition-all duration-300 cursor-pointer group">
-          <div className="stat-figure text-accent group-hover:scale-110 transition-transform duration-300">
-            <DollarSign className="w-8 h-8 drop-shadow-lg" />
+          <div className="stat-title text-slate-400">Paid Principal</div>
+          <div className="stat-value text-blue-400 text-3xl lg:text-4xl">{formatCurrency(currentMonthData.totalPaid)}</div>
+          <div className="stat-desc text-slate-300 font-semibold">
+            {Math.round((currentMonthData.totalPaid / loanPrincipal) * 100)}% of loan
           </div>
-            <div className="stat-title text-slate-400">Monthly Payments</div>
-          <div className="stat-value text-accent text-3xl lg:text-4xl">$2,880</div>
-            <div className="stat-desc font-semibold text-slate-500">Due in 15 days</div>
         </div>
 
-        {/* Average Interest Card */}
-        <div className="stat hover:bg-base-300 transition-all duration-300 cursor-pointer group">
-          <div className="stat-figure text-info group-hover:scale-110 transition-transform duration-300">
+        {/* Total Interest Paid */}
+        <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-error group-hover:scale-110 transition-transform duration-300">
             <Percent className="w-8 h-8 drop-shadow-lg" />
           </div>
-            <div className="stat-title text-slate-400">Avg Interest Rate</div>
-          <div className="stat-value text-info text-3xl lg:text-4xl">4.2%</div>
-            <div className="stat-desc font-semibold text-slate-500">Across all loans</div>
+          <div className="stat-title text-slate-400">Total Interest Paid</div>
+          <div className="stat-value text-error text-3xl lg:text-4xl">{formatCurrency(currentMonthData.totalInterestPaid)}</div>
+          <div className="stat-desc font-semibold text-slate-500">Since beginning</div>
         </div>
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Savings Growth Chart */}
-        <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-success/40 transition-all duration-500 group">
-          <div className="card-body">
-            <h3 className="card-title text-success flex items-center gap-2">
-              <span className="w-3 h-3 bg-success rounded-full animate-pulse"></span>
-              Savings Growth Trend
-            </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={savingsGrowthData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis dataKey="month" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#0f172a', 
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px'
-                }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="amount" 
-                 stroke="#10b981" 
-                strokeWidth={3}
-                dot={{ fill: '#0d9488', r: 5 }}
-                activeDot={{ r: 7 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Loan Breakdown Chart */}
-        <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-primary/40 transition-all duration-500 group">
+      <div className="grid grid-cols-1 gap-6">
+        {/* Principal Evolution */}
+        <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500 group">
           <div className="card-body">
             <h3 className="card-title text-primary flex items-center gap-2">
               <span className="w-3 h-3 bg-primary rounded-full animate-pulse"></span>
-              Loan Breakdown
+              Principal Evolution (Recent Months)
             </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={loanBreakdownData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis dataKey="name" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#0f172a', 
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px'
-                }}
-              />
-              <Legend />
-              <Bar dataKey="amount" fill="#2563eb" radius={[8, 8, 0, 0]} />
-              <Bar dataKey="payment" fill="#06b6d4" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+            <ResponsiveContainer width="100%" height={400}>
+              <AreaChart data={recentMonthsData}>
+                <defs>
+                  <linearGradient id="colorPaid" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="colorRemaining" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#64748b" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#64748b" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <XAxis dataKey="month" stroke="#6b7280" />
+                <YAxis 
+                  stroke="#6b7280" 
+                  tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#0f172a', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px'
+                  }}
+                  formatter={(value: number) => formatCurrency(value)}
+                />
+                <Legend />
+                <Area
+                  type="monotone"
+                  dataKey="paidPrincipal"
+                  stroke="#3b82f6"
+                  fillOpacity={1}
+                  fill="url(#colorPaid)"
+                  strokeWidth={2}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="remainingPrincipal"
+                  stroke="#64748b"
+                  fillOpacity={1}
+                  fill="url(#colorRemaining)"
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Comparative Bar Chart */}
+        <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-blue-400/40 transition-all duration-500 group">
+          <div className="card-body">
+            <h3 className="card-title text-blue-400 flex items-center gap-2">
+              <span className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></span>
+              Monthly Repayment Progress
+            </h3>
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart data={recentMonthsData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <XAxis dataKey="month" stroke="#6b7280" />
+                <YAxis 
+                  stroke="#6b7280"
+                  tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#0f172a', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px'
+                  }}
+                  formatter={(value: number) => formatCurrency(value)}
+                />
+                <Legend />
+                <Bar dataKey="paidPrincipal" fill="#3b82f6" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="remainingPrincipal" fill="#64748b" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-accent/40 transition-all duration-500">
+      {/* Additional Information */}
+      <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-accent/40 transition-all duration-500">
         <div className="card-body">
           <h3 className="card-title text-base-content flex items-center gap-2 mb-4">
-            <span className="w-3 h-3 bg-accent rounded-full animate-pulse"></span>
-            Recent Activity
+            <Calendar className="w-6 h-6" />
+            Repayment Details
           </h3>
-          <div className="space-y-3">
-            <div className="alert alert-success shadow-lg hover:shadow-success/30 transition-all duration-300 cursor-pointer hover:scale-[1.02] border border-success/30 bg-success/10">
-              <div className="flex items-center gap-3 w-full">
-                <div className="avatar placeholder">
-                    <div className="bg-emerald-600 text-slate-100 rounded-full w-10 animate-pulse">
-                    <TrendingUp className="w-5 h-5" />
-                  </div>
-                </div>
-                <div className="flex-1">
-                    <h4 className="font-semibold text-slate-800">Savings Deposit</h4>
-                    <p className="text-sm text-slate-500">Feb 1, 2026</p>
-                </div>
-                  <div className="badge badge-lg font-bold bg-emerald-600 text-slate-100">+$1,200</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
+                <span className="text-base-content/70">Loan start:</span>
+                <span className="font-bold">{loanStartFormatted}</span>
+              </div>
+              <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
+                <span className="text-base-content/70">Expected end:</span>
+                <span className="font-bold">{loanEndFormatted}</span>
+              </div>
+              <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
+                <span className="text-base-content/70">Months elapsed:</span>
+                <span className="font-bold">{currentMonthIndex + 1} / {loanDurationMonths}</span>
               </div>
             </div>
-            
-            <div className="alert shadow-lg hover:shadow-primary/30 transition-all duration-300 cursor-pointer hover:scale-[1.02] border border-base-300 bg-base-300/50">
-              <div className="flex items-center gap-3 w-full">
-                <div className="avatar placeholder">
-                    <div className="bg-blue-600 text-slate-100 rounded-full w-10">
-                    <CreditCard className="w-5 h-5" />
-                  </div>
-                </div>
-                <div className="flex-1">
-                    <h4 className="font-semibold text-slate-800">Loan Payment - Home</h4>
-                    <p className="text-sm text-slate-500">Jan 28, 2026</p>
-                </div>
-                <div className="badge badge-ghost badge-lg font-bold">-$1,850</div>
+            <div className="space-y-2">
+              <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
+                <span className="text-base-content/70">Total to repay:</span>
+                <span className="font-bold text-error">{formatCurrency(monthlyPayment * loanDurationMonths)}</span>
               </div>
-            </div>
-            
-            <div className="alert shadow-lg hover:shadow-accent/30 transition-all duration-300 cursor-pointer hover:scale-[1.02] border border-accent/20 bg-accent/5">
-              <div className="flex items-center gap-3 w-full">
-                <div className="avatar placeholder">
-                    <div className="bg-cyan-600 text-slate-100 rounded-full w-10">
-                    <CreditCard className="w-5 h-5" />
-                  </div>
-                </div>
-                <div className="flex-1">
-                    <h4 className="font-semibold text-slate-800">Loan Payment - Auto</h4>
-                    <p className="text-sm text-slate-500">Jan 25, 2026</p>
-                </div>
-                <div className="badge badge-ghost badge-lg font-bold">-$580</div>
+              <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
+                <span className="text-base-content/70">Total interest over 4 years:</span>
+                <span className="font-bold text-slate-300">{formatCurrency((monthlyPayment * loanDurationMonths) - loanPrincipal)}</span>
+              </div>
+              <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
+                <span className="text-base-content/70">Progress:</span>
+                <span className="font-bold text-blue-400">{Math.round(((currentMonthIndex + 1) / loanDurationMonths) * 100)}%</span>
               </div>
             </div>
           </div>

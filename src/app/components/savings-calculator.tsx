@@ -10,10 +10,10 @@ interface ProjectionData {
 }
 
 export function SavingsCalculator() {
-  const [initialDeposit, setInitialDeposit] = useState('5000');
-  const [monthlyContribution, setMonthlyContribution] = useState('500');
-  const [interestRate, setInterestRate] = useState('5.5');
-  const [duration, setDuration] = useState('10');
+  const [initialDeposit, setInitialDeposit] = useState('1000000');
+  const [monthlyContribution, setMonthlyContribution] = useState('500000');
+  const [interestRate, setInterestRate] = useState('2.5');
+  const [duration, setDuration] = useState('2');
   const [finalBalance, setFinalBalance] = useState<number | null>(null);
   const [totalContributions, setTotalContributions] = useState<number | null>(null);
   const [totalInterest, setTotalInterest] = useState<number | null>(null);
@@ -84,7 +84,7 @@ export function SavingsCalculator() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
-      <div className="hero bg-base-200/20 backdrop-blur-md rounded-box shadow-2xl border border-white/10 relative overflow-hidden group hover:border-success/40 transition-all duration-500">
+      <div className="hero bg-base-200/5 backdrop-blur-[3px] rounded-box shadow-2xl border border-white/3 relative overflow-hidden group hover:border-success/40 transition-all duration-500">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-success/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
@@ -99,7 +99,7 @@ export function SavingsCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input Form */}
         <div className="lg:col-span-1">
-          <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-success/40 transition-all duration-500">
+          <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-success/40 transition-all duration-500">
             <div className="card-body space-y-4">
               <h3 className="card-title text-success flex items-center gap-2">
                 <span className="w-3 h-3 bg-success rounded-full animate-pulse"></span>
@@ -188,8 +188,8 @@ export function SavingsCalculator() {
         <div className="lg:col-span-2 space-y-6">
           {/* Summary Cards */}
           {finalBalance !== null && (
-            <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/20 backdrop-blur-md border border-white/10 animate-scaleIn">
-              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+            <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/5 backdrop-blur-[3px] border border-white/3 animate-scaleIn">
+              <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-success group-hover:scale-110 transition-transform duration-300 animate-bounce">
                   <TrendingUp className="w-8 h-8 drop-shadow-lg" />
                 </div>
@@ -199,7 +199,7 @@ export function SavingsCalculator() {
                 </div>
               </div>
 
-              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+              <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
                   <DollarSign className="w-8 h-8 drop-shadow-lg" />
                 </div>
@@ -209,7 +209,7 @@ export function SavingsCalculator() {
                 </div>
               </div>
 
-              <div className="stat hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+              <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
                 <div className="stat-figure text-accent group-hover:scale-110 transition-transform duration-300">
                   <TrendingUp className="w-8 h-8 drop-shadow-lg" />
                 </div>
@@ -223,7 +223,7 @@ export function SavingsCalculator() {
 
           {/* Projection Chart */}
           {projectionData.length > 0 && (
-            <div className="card bg-base-200/20 backdrop-blur-md shadow-2xl border border-white/10 hover:border-success/40 transition-all duration-500 animate-slideInUp">
+            <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-success/40 transition-all duration-500 animate-slideInUp">
               <div className="card-body">
                 <h3 className="card-title text-success flex items-center gap-2">
                   <span className="w-3 h-3 bg-success rounded-full animate-pulse"></span>
@@ -281,7 +281,7 @@ export function SavingsCalculator() {
 
           {/* Total Growth Line Chart */}
           {projectionData.length > 0 && (
-            <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl border border-accent/20 hover:border-accent/50 transition-all duration-500 animate-slideInUp">
+            <div className="card bg-base-100/30 backdrop-blur-none shadow-2xl border border-accent/10 hover:border-accent/40 transition-all duration-500 animate-slideInUp">
               <div className="card-body">
                 <h3 className="card-title text-accent flex items-center gap-2">
                   <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
@@ -320,7 +320,7 @@ export function SavingsCalculator() {
 
           {/* Empty State */}
           {finalBalance === null && (
-            <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl border border-secondary/20 hover:border-secondary/50 transition-all duration-500">
+            <div className="card bg-base-100/30 backdrop-blur-none shadow-2xl border border-secondary/10 hover:border-secondary/40 transition-all duration-500">
               <div className="card-body items-center text-center py-12">
                 <div className="avatar placeholder">
                   <div className="bg-gradient-to-br from-secondary to-accent text-secondary-content rounded-full w-20 animate-pulse shadow-lg shadow-secondary/50">

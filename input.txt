@@ -1,0 +1,13 @@
+Dans le dashboard, je voudrais afficher plutot:
+  - Un exemple d'un pret detaillant (Pret fait en Janvier 2024):
+      - Le capital du pret du depart 8 900 000 Ariary
+      - Interet annuelle de 20 % par mois
+      - Duree de 4 Ans
+      - Montant a payer par mois
+  - Un chart detaillant (de quelques derniers mois):
+      - La valeur de capital restant
+      - La valeur de capital payee
+  - Un revu du mois en cours detaillant :
+      - La valeur de capital restant
+      - La valeur de capital payee
+      - Total interet payee

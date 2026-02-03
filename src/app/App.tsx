@@ -16,7 +16,7 @@ export default function App() {
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="navbar bg-base-100/20 backdrop-blur-md shadow-2xl border-b border-white/10 sticky top-0 z-50\">
+        <div className="navbar bg-base-100/5 backdrop-blur-[3px] shadow-2xl border-b border-white/3 sticky top-0 z-50">
           <div className="navbar-start">
             <div className="flex items-center space-x-3">
               <div className="avatar placeholder">
@@ -32,7 +32,7 @@ export default function App() {
 
           {/* Navigation */}
           <div className="navbar-end">
-            <div className="tabs tabs-boxed bg-base-200/20 backdrop-blur-md p-1 gap-1 border border-white/10">
+            <div className="tabs tabs-boxed bg-base-200/5 backdrop-blur-[3px] p-1 gap-1 border border-white/3">
               <button
                 onClick={() => setActiveScreen('dashboard')}
                 className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'dashboard'
