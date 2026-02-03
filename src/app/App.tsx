@@ -11,65 +11,60 @@ export default function App() {
   const [activeScreen, setActiveScreen] = useState<Screen>('dashboard');
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-base-300 via-base-100 to-base-300">
       <MagneticField />
 
       <div className="relative z-10">
         {/* Header */}
-        <header className="bg-primary/95 backdrop-blur-sm shadow-lg border-b border-primary/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                  <Layers className="w-4 h-4 text-primary" />
+        <div className="navbar bg-base-100/80 backdrop-blur-lg shadow-2xl border-b border-primary/20 sticky top-0 z-50">
+          <div className="navbar-start">
+            <div className="flex items-center space-x-3">
+              <div className="avatar placeholder">
+                <div className="bg-gradient-to-br from-accent to-secondary text-neutral-content rounded-lg w-7 animate-pulse flex items-center justify-center">
+                  <Layers className="w-5 h-5" />
                 </div>
-                <h1 className="text-primary-foreground text-2xl">
-                  Credi<span className="bg-primary rounded-sm px-2">Calc</span>
-                </h1>
               </div>
-
-              {/* Navigation */}
-              <nav className="flex space-x-2">
-                <button
-                  onClick={() => setActiveScreen('dashboard')}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${activeScreen === 'dashboard'
-                      ? 'bg-accent text-primary'
-                      : 'text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10'
-                    }`}
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  <span>Dashboard</span>
-                </button>
-                <button
-                  onClick={() => setActiveScreen('loan')}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${activeScreen === 'loan'
-                      ? 'bg-accent text-primary'
-                      : 'text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10'
-                    }`}
-                >
-                  <Calculator className="w-4 h-4" />
-                  <span>Loan Calculator</span>
-                </button>
-                <button
-                  onClick={() => setActiveScreen('savings')}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${activeScreen === 'savings'
-                      ? 'bg-accent text-primary'
-                      : 'text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10'
-                    }`}
-                >
-                  <PiggyBank className="w-4 h-4" />
-                  <span>Savings Calculator</span>
-                </button>
-              </nav>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Credi<span className="badge badge-primary badge-lg mx-1 animate-bounce">Calc</span>
+              </h1>
             </div>
           </div>
-        </header>
+
+          {/* Navigation */}
+          <div className="navbar-end">
+            <div className="tabs tabs-boxed bg-base-200/50 backdrop-blur-sm p-1">
+              <button
+                onClick={() => setActiveScreen('dashboard')}
+                className={`tab gap-2 transition-all duration-300 ${activeScreen === 'dashboard' ? 'tab-active shadow-lg shadow-primary/50' : 'hover:text-primary hover:scale-105'}`}
+              >
+                <LayoutDashboard className={`w-4 h-4 transition-transform ${activeScreen === 'dashboard' ? 'scale-110' : ''}`} />
+                <span className="hidden sm:inline">Dashboard</span>
+              </button>
+              <button
+                onClick={() => setActiveScreen('loan')}
+                className={`tab gap-2 transition-all duration-300 ${activeScreen === 'loan' ? 'tab-active shadow-lg shadow-accent/50' : 'hover:text-accent hover:scale-105'}`}
+              >
+                <Calculator className={`w-4 h-4 transition-transform ${activeScreen === 'loan' ? 'scale-110' : ''}`} />
+                <span className="hidden sm:inline">Loan</span>
+              </button>
+              <button
+                onClick={() => setActiveScreen('savings')}
+                className={`tab gap-2 transition-all duration-300 ${activeScreen === 'savings' ? 'tab-active shadow-lg shadow-secondary/50' : 'hover:text-secondary hover:scale-105'}`}
+              >
+                <PiggyBank className={`w-4 h-4 transition-transform ${activeScreen === 'savings' ? 'scale-110' : ''}`} />
+                <span className="hidden sm:inline">Savings</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {activeScreen === 'dashboard' && <Dashboard />}
-          {activeScreen === 'loan' && <LoanCalculator />}
-          {activeScreen === 'savings' && <SavingsCalculator />}
+          <div className="animate-fadeIn">
+            {activeScreen === 'dashboard' && <Dashboard />}
+            {activeScreen === 'loan' && <LoanCalculator />}
+            {activeScreen === 'savings' && <SavingsCalculator />}
+          </div>
         </main>
       </div>
     </div>

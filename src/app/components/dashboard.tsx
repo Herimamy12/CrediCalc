@@ -21,77 +21,70 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-primary to-accent/80 rounded-2xl p-8 shadow-xl">
-        <h2 className="text-3xl text-primary-foreground mb-2">Welcome back!</h2>
-        <p className="text-primary-foreground/80">
-          Here's an overview of your financial portfolio
-        </p>
+      <div className="hero bg-gradient-to-r from-primary via-accent to-secondary rounded-box shadow-2xl hover:shadow-accent/50 transition-all duration-500 border border-accent/30 relative overflow-hidden group">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+        <div className="hero-content text-center py-10 relative z-10">
+          <div>
+            <h2 className="text-5xl font-bold mb-3 bg-gradient-to-r from-base-content via-accent to-secondary bg-clip-text text-transparent animate-pulse">Welcome back!</h2>
+            <p className="text-lg opacity-90 max-w-md">
+              Here's an overview of your financial portfolio
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-100/80 backdrop-blur-sm border border-primary/20">
         {/* Total Loans Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <CreditCard className="w-6 h-6 text-primary" />
-            </div>
-            <span className="text-sm text-muted-foreground">Total Loans</span>
+        <div className="stat hover:bg-primary/10 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
+            <CreditCard className="w-8 h-8 drop-shadow-lg" />
           </div>
-          <div className="space-y-1">
-            <p className="text-3xl text-primary">$293,000</p>
-            <p className="text-sm text-muted-foreground">3 active loans</p>
-          </div>
+          <div className="stat-title">Total Loans</div>
+          <div className="stat-value text-primary text-3xl lg:text-4xl">$293K</div>
+          <div className="stat-desc font-semibold">3 active loans</div>
         </div>
 
         {/* Savings Balance Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-secondary" />
-            </div>
-            <span className="text-sm text-muted-foreground">Savings Balance</span>
+        <div className="stat hover:bg-secondary/10 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-secondary group-hover:scale-110 transition-transform duration-300 animate-bounce">
+            <TrendingUp className="w-8 h-8 drop-shadow-lg" />
           </div>
-          <div className="space-y-1">
-            <p className="text-3xl text-secondary">$12,600</p>
-            <p className="text-sm text-secondary">+18% this month</p>
-          </div>
+          <div className="stat-title">Savings Balance</div>
+          <div className="stat-value text-secondary text-3xl lg:text-4xl">$12.6K</div>
+          <div className="stat-desc text-success font-semibold">↗︎ 18% this month</div>
         </div>
 
         {/* Monthly Payments Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
-              <DollarSign className="w-6 h-6 text-accent" />
-            </div>
-            <span className="text-sm text-muted-foreground">Monthly Payments</span>
+        <div className="stat hover:bg-accent/10 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-accent group-hover:scale-110 transition-transform duration-300">
+            <DollarSign className="w-8 h-8 drop-shadow-lg" />
           </div>
-          <div className="space-y-1">
-            <p className="text-3xl text-primary">$2,880</p>
-            <p className="text-sm text-muted-foreground">Due in 15 days</p>
-          </div>
+          <div className="stat-title">Monthly Payments</div>
+          <div className="stat-value text-accent text-3xl lg:text-4xl">$2,880</div>
+          <div className="stat-desc font-semibold">Due in 15 days</div>
         </div>
 
         {/* Average Interest Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Percent className="w-6 h-6 text-purple-600" />
-            </div>
-            <span className="text-sm text-muted-foreground">Avg Interest Rate</span>
+        <div className="stat hover:bg-info/10 transition-all duration-300 cursor-pointer group">
+          <div className="stat-figure text-info group-hover:scale-110 transition-transform duration-300">
+            <Percent className="w-8 h-8 drop-shadow-lg" />
           </div>
-          <div className="space-y-1">
-            <p className="text-3xl text-purple-600">4.2%</p>
-            <p className="text-sm text-muted-foreground">Across all loans</p>
-          </div>
+          <div className="stat-title">Avg Interest Rate</div>
+          <div className="stat-value text-info text-3xl lg:text-4xl">4.2%</div>
+          <div className="stat-desc font-semibold">Across all loans</div>
         </div>
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Savings Growth Chart */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-          <h3 className="mb-4 text-primary">Savings Growth Trend</h3>
+        <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl hover:shadow-secondary/50 transition-all duration-500 border border-secondary/20 hover:border-secondary/50 group">
+          <div className="card-body">
+            <h3 className="card-title text-secondary flex items-center gap-2">
+              <span className="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+              Savings Growth Trend
+            </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={savingsGrowthData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -114,11 +107,16 @@ export function Dashboard() {
               />
             </LineChart>
           </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Loan Breakdown Chart */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-          <h3 className="mb-4 text-primary">Loan Breakdown</h3>
+        <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl hover:shadow-primary/50 transition-all duration-500 border border-primary/20 hover:border-primary/50 group">
+          <div className="card-body">
+            <h3 className="card-title text-primary flex items-center gap-2">
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+              Loan Breakdown
+            </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={loanBreakdownData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -136,50 +134,62 @@ export function Dashboard() {
               <Bar dataKey="payment" fill="#06b6d4" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-        <h3 className="mb-4 text-primary">Recent Activity</h3>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-secondary" />
-              </div>
-              <div>
-                <p className="text-primary">Savings Deposit</p>
-                <p className="text-sm text-muted-foreground">Feb 1, 2026</p>
-              </div>
-            </div>
-            <p className="text-secondary">+$1,200</p>
-          </div>
-          
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-primary">Loan Payment - Home</p>
-                <p className="text-sm text-muted-foreground">Jan 28, 2026</p>
+      <div className="card bg-base-100/80 backdrop-blur-sm shadow-2xl border border-accent/20 hover:border-accent/50 transition-all duration-500">
+        <div className="card-body">
+          <h3 className="card-title text-primary mb-4 flex items-center gap-2">
+            <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+            Recent Activity
+          </h3>
+          <div className="space-y-3">
+            <div className="alert alert-success shadow-lg hover:shadow-success/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] border border-success/30">
+              <div className="flex items-center gap-3 w-full">
+                <div className="avatar placeholder">
+                  <div className="bg-success text-success-content rounded-full w-10 animate-pulse">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold">Savings Deposit</h4>
+                  <p className="text-sm opacity-70">Feb 1, 2026</p>
+                </div>
+                <div className="badge badge-success badge-lg font-bold">+$1,200</div>
               </div>
             </div>
-            <p className="text-primary">-$1,850</p>
-          </div>
-          
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-accent" />
-              </div>
-              <div>
-                <p className="text-primary">Loan Payment - Auto</p>
-                <p className="text-sm text-muted-foreground">Jan 25, 2026</p>
+            
+            <div className="alert shadow-lg hover:shadow-primary/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] border border-primary/20">
+              <div className="flex items-center gap-3 w-full">
+                <div className="avatar placeholder">
+                  <div className="bg-primary text-primary-content rounded-full w-10">
+                    <CreditCard className="w-5 h-5" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold">Loan Payment - Home</h4>
+                  <p className="text-sm opacity-70">Jan 28, 2026</p>
+                </div>
+                <div className="badge badge-ghost badge-lg font-bold">-$1,850</div>
               </div>
             </div>
-            <p className="text-primary">-$580</p>
+            
+            <div className="alert shadow-lg hover:shadow-accent/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] border border-accent/20">
+              <div className="flex items-center gap-3 w-full">
+                <div className="avatar placeholder">
+                  <div className="bg-accent text-accent-content rounded-full w-10">
+                    <CreditCard className="w-5 h-5" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold">Loan Payment - Auto</h4>
+                  <p className="text-sm opacity-70">Jan 25, 2026</p>
+                </div>
+                <div className="badge badge-ghost badge-lg font-bold">-$580</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
