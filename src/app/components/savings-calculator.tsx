@@ -88,8 +88,8 @@ export function SavingsCalculator() {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-success/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-base-content">Savings Calculator</h2>
-            <p className="text-lg text-base-content/80 max-w-md">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-gray-50">Savings Calculator</h2>
+            <p className="text-lg text-gray-50/80 max-w-md">
               Project your savings growth and visualize compound interest
             </p>
           </div>
@@ -109,7 +109,7 @@ export function SavingsCalculator() {
               {/* Initial Deposit */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Initial Deposit ($)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Initial Deposit ($)</span>
                 </label>
                 <input
                   type="number"
@@ -123,7 +123,7 @@ export function SavingsCalculator() {
               {/* Monthly Contribution */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Monthly Contribution ($)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Monthly Contribution ($)</span>
                 </label>
                 <input
                   type="number"
@@ -137,7 +137,7 @@ export function SavingsCalculator() {
               {/* Interest Rate */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Annual Interest Rate (%)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Annual Interest Rate (%)</span>
                 </label>
                 <input
                   type="number"
@@ -152,7 +152,7 @@ export function SavingsCalculator() {
               {/* Duration */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Time Period (Years)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Time Period (Years)</span>
                 </label>
                 <input
                   type="number"
@@ -200,11 +200,11 @@ export function SavingsCalculator() {
               </div>
 
               <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
-                <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
+                <div className="stat-figure text-gray-400 group-hover:scale-110 transition-transform duration-300">
                   <DollarSign className="w-8 h-8 drop-shadow-lg" />
                 </div>
                   <div className="stat-title text-slate-400">Total Contributions</div>
-                <div className="stat-value text-primary text-2xl lg:text-3xl">
+                <div className="stat-value text-gray-400 text-2xl lg:text-3xl">
                   ${totalContributions?.toFixed(2)}
                 </div>
               </div>
@@ -320,7 +320,7 @@ export function SavingsCalculator() {
 
           {/* Empty State */}
           {finalBalance === null && (
-            <div className="card bg-base-100/30 backdrop-blur-none shadow-2xl border border-secondary/10 hover:border-secondary/40 transition-all duration-500">
+            <div className="card bg-base-100/2 backdrop-blur-none shadow-2xl border border-secondary/10 hover:border-secondary/40 transition-all duration-500">
               <div className="card-body items-center text-center py-12">
                 <div className="avatar placeholder">
                   <div className="bg-gradient-to-br from-secondary to-accent text-secondary-content rounded-full w-20 animate-pulse shadow-lg shadow-secondary/50">
@@ -328,7 +328,7 @@ export function SavingsCalculator() {
                   </div>
                 </div>
                 <h3 className="card-title text-secondary mt-4">Ready to Project</h3>
-                <p className="text-base-content/70 max-w-md">
+                <p className="text-gray-50/70 max-w-md">
                   Enter your savings details and click Calculate to see your projected growth and compound interest
                 </p>
               </div>

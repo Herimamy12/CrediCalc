@@ -68,12 +68,12 @@ export function LoanCalculator() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
-      <div className="hero bg-base-200/5 backdrop-blur-[3px] rounded-box shadow-2xl border border-white/3 relative overflow-hidden group hover:border-primary/40 transition-all duration-500">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+      <div className="hero bg-base-200/5 backdrop-blur-[3px] rounded-box shadow-2xl border border-white/3 relative overflow-hidden group hover:border-accent/40 transition-all duration-500">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-base-content">Loan Calculator</h2>
-            <p className="text-lg text-base-content/80 max-w-md">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-gray-50">Loan Calculator</h2>
+            <p className="text-lg text-gray-50/80 max-w-md">
               Calculate your monthly payments and view amortization schedule
             </p>
           </div>
@@ -85,15 +85,15 @@ export function LoanCalculator() {
         <div className="lg:col-span-1">
           <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500">
             <div className="card-body space-y-4">
-              <h3 className="card-title text-primary flex items-center gap-2">
-                <span className="w-3 h-3 bg-primary rounded-full animate-pulse"></span>
+              <h3 className="card-title text-accent flex items-center gap-2">
+                <span className="w-3 h-3 bg-accent rounded-full animate-pulse"></span>
                 Loan Details
               </h3>
 
               {/* Loan Amount */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Loan Amount (Ariary)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Loan Amount (Ariary)</span>
                 </label>
                 <input
                   type="number"
@@ -107,7 +107,7 @@ export function LoanCalculator() {
               {/* Interest Rate */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Annual Interest Rate (%)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Annual Interest Rate (%)</span>
                 </label>
                 <input
                   type="number"
@@ -122,7 +122,7 @@ export function LoanCalculator() {
               {/* Duration */}
               <div className="form-control">
                 <label className="label">
-                    <span className="label-text font-semibold text-slate-800">Loan Duration (Years)</span>
+                    <span className="label-text font-semibold text-gray-50/500">Loan Duration (Years)</span>
                 </label>
                 <input
                   type="number"
@@ -160,11 +160,11 @@ export function LoanCalculator() {
           {monthlyPayment !== null && (
             <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/5 backdrop-blur-[3px] border border-white/3 animate-scaleIn">
               <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
-                <div className="stat-figure text-primary group-hover:scale-110 transition-transform duration-300">
+                <div className="stat-figure text-error group-hover:scale-110 transition-transform duration-300">
                   <TrendingDown className="w-8 h-8 drop-shadow-lg" />
                 </div>
                   <div className="stat-title text-slate-400">Monthly Payment</div>
-                <div className="stat-value text-primary text-2xl lg:text-3xl">
+                <div className="stat-value text-error text-2xl lg:text-3xl">
                   ${monthlyPayment.toFixed(2)}
                 </div>
               </div>
@@ -251,7 +251,7 @@ export function LoanCalculator() {
 
           {/* Empty State */}
           {monthlyPayment === null && (
-            <div className="card bg-base-100/30 backdrop-blur-none shadow-2xl border border-primary/10 hover:border-primary/40 transition-all duration-500">
+            <div className="card bg-base-100/2 backdrop-blur-none shadow-2xl border border-primary/10 hover:border-primary/40 transition-all duration-500">
               <div className="card-body items-center text-center py-12">
                 <div className="avatar placeholder">
                   <div className="bg-gradient-to-br from-primary to-accent text-primary-content rounded-full w-20 animate-pulse shadow-lg shadow-primary/50">
@@ -259,7 +259,7 @@ export function LoanCalculator() {
                   </div>
                 </div>
                 <h3 className="card-title text-primary mt-4">Ready to Calculate</h3>
-                <p className="text-base-content/70 max-w-md">
+                <p className="text-gray-50/70 max-w-md">
                   Enter your loan details and click Calculate to see your monthly payment and amortization schedule
                 </p>
               </div>

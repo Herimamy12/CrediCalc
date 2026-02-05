@@ -82,8 +82,8 @@ export function Dashboard() {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
         <div className="hero-content text-center py-10 relative z-10">
           <div>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-base-content">Welcome back!</h2>
-            <p className="text-lg text-base-content/80 max-w-md">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-3 text-gray-100">Welcome back!</h2>
+            <p className="text-lg text-gray-100/80 max-w-md">
               Here's an overview of your financial portfolio
             </p>
           </div>
@@ -98,25 +98,25 @@ export function Dashboard() {
             Loan Details ({loanStartFormatted})
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="stat bg-primary/10 rounded-lg p-4 border border-primary/20 hover:border-primary/40 transition-all">
-              <div className="stat-title text-base-content/70">Initial Principal</div>
-              <div className="stat-value text-primary text-2xl">{formatCurrency(loanPrincipal)}</div>
-              <div className="stat-desc text-base-content/60">Borrowed amount</div>
+            <div className="stat bg-gray-700/10 rounded-lg p-4 border border-gray-700/20 hover:border-gray-700/100 transition-all">
+              <div className="stat-title text-gray-100/70">Initial Principal</div>
+              <div className="stat-value text-gray text-2xl">{formatCurrency(loanPrincipal)}</div>
+              <div className="stat-desc text-gray-100/60">Borrowed amount</div>
             </div>
             <div className="stat bg-error/10 rounded-lg p-4 border border-error/20 hover:border-error/40 transition-all">
-              <div className="stat-title text-base-content/70">Interest Rate</div>
+              <div className="stat-title text-gray-100/70">Interest Rate</div>
               <div className="stat-value text-error text-2xl">20%</div>
-              <div className="stat-desc text-base-content/60">Per year</div>
+              <div className="stat-desc text-gray-100/60">Per year</div>
             </div>
             <div className="stat bg-info/10 rounded-lg p-4 border border-info/20 hover:border-info/40 transition-all">
-              <div className="stat-title text-base-content/70">Duration</div>
+              <div className="stat-title text-gray-100/70">Duration</div>
               <div className="stat-value text-info text-2xl">4 Years</div>
-              <div className="stat-desc text-base-content/60">{loanDurationMonths} months</div>
+              <div className="stat-desc text-gray-100/60">{loanDurationMonths} months</div>
             </div>
             <div className="stat bg-accent/10 rounded-lg p-4 border border-accent/20 hover:border-accent/40 transition-all">
-              <div className="stat-title text-base-content/70">Monthly Payment</div>
+              <div className="stat-title text-gray-100/70">Monthly Payment</div>
               <div className="stat-value text-accent text-2xl">{formatCurrency(monthlyPayment)}</div>
-              <div className="stat-desc text-base-content/60">To pay each month</div>
+              <div className="stat-desc text-gray-100/60">To pay each month</div>
             </div>
           </div>
         </div>
@@ -249,36 +249,36 @@ export function Dashboard() {
       {/* Additional Information */}
       <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-accent/40 transition-all duration-500">
         <div className="card-body">
-          <h3 className="card-title text-base-content flex items-center gap-2 mb-4">
+          <h3 className="card-title text-gray-100 flex items-center gap-2 mb-4">
             <Calendar className="w-6 h-6" />
             Repayment Details
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
-                <span className="text-base-content/70">Loan start:</span>
+                <span className="text-gray-100/70">Loan start:</span>
                 <span className="font-bold">{loanStartFormatted}</span>
               </div>
               <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
-                <span className="text-base-content/70">Expected end:</span>
+                <span className="text-gray-100/70">Expected end:</span>
                 <span className="font-bold">{loanEndFormatted}</span>
               </div>
               <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
-                <span className="text-base-content/70">Months elapsed:</span>
+                <span className="text-gray-100/70">Months elapsed:</span>
                 <span className="font-bold">{currentMonthIndex + 1} / {loanDurationMonths}</span>
               </div>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
-                <span className="text-base-content/70">Total to repay:</span>
+                <span className="text-gray-100/70">Total to repay:</span>
                 <span className="font-bold text-error">{formatCurrency(monthlyPayment * loanDurationMonths)}</span>
               </div>
               <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
-                <span className="text-base-content/70">Total interest over 4 years:</span>
+                <span className="text-gray-100/70">Total interest over 4 years:</span>
                 <span className="font-bold text-slate-300">{formatCurrency((monthlyPayment * loanDurationMonths) - loanPrincipal)}</span>
               </div>
               <div className="flex justify-between p-3 bg-base-300/30 rounded-lg hover:bg-base-300/50 transition-all">
-                <span className="text-base-content/70">Progress:</span>
+                <span className="text-gray-100/70">Progress:</span>
                 <span className="font-bold text-blue-400">{Math.round(((currentMonthIndex + 1) / loanDurationMonths) * 100)}%</span>
               </div>
             </div>

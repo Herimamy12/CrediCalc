@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MagneticField } from '@/app/components/magnetic-field';
+import { MagneticFieldBackground } from '@/app/components/magnetic-field';
 import { Dashboard } from '@/app/components/dashboard';
 import { LoanCalculator } from '@/app/components/loan-calculator';
 import { SavingsCalculator } from '@/app/components/savings-calculator';
@@ -11,12 +11,12 @@ export default function App() {
   const [activeScreen, setActiveScreen] = useState<Screen>('dashboard');
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-base-100 via-base-200 to-base-100">
-      <MagneticField />
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-base-100 via-base-200 to-base-100 text-slate-100">
+      <MagneticFieldBackground />
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="navbar bg-base-100/5 backdrop-blur-[3px] shadow-2xl border-b border-white/3 sticky top-0 z-50">
+        <div className="navbar bg-base-100/2 backdrop-blur-[3px] shadow-2xl border-b border-white/3 sticky top-0 z-50">
           <div className="navbar-start">
             <div className="flex items-center space-x-3">
               <div className="avatar placeholder">
@@ -24,7 +24,7 @@ export default function App() {
                   <Layers className="w-5 h-5" />
                 </div>
               </div>
-              <h1 className="text-2xl font-bold text-base-content">
+              <h1 className="text-2xl font-bold text-gray-50/90">
                 Credi<span className="text-2xl font-bold text-accent">Calc</span>
               </h1>
             </div>
@@ -32,12 +32,12 @@ export default function App() {
 
           {/* Navigation */}
           <div className="navbar-end">
-            <div className="tabs tabs-boxed bg-base-200/5 backdrop-blur-[3px] p-1 gap-1 border border-white/3">
+            <div className="tabs tabs-boxed bg-base-content backdrop-blur-[3px] p-1 gap-1 border border-white/3">
               <button
                 onClick={() => setActiveScreen('dashboard')}
                 className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'dashboard'
                   ? 'tab-active bg-primary text-primary-content shadow-lg shadow-primary/40'
-                  : 'text-base-content/60 hover:text-primary hover:scale-105'
+                  : 'text-gray-50 hover:text-primary hover:scale-105'
                   }`}
               >
                 <LayoutDashboard className={`w-4 h-4 transition-transform ${activeScreen === 'dashboard' ? 'scale-110' : ''
@@ -48,7 +48,7 @@ export default function App() {
                 onClick={() => setActiveScreen('loan')}
                 className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'loan'
                   ? 'tab-active bg-accent text-base-100 shadow-lg shadow-accent/40'
-                  : 'text-base-content/60 hover:text-accent hover:scale-105'
+                  : 'text-gray-50 hover:text-accent hover:scale-105'
                   }`}
               >
                 <Calculator className={`w-4 h-4 transition-transform ${activeScreen === 'loan' ? 'scale-110' : ''
@@ -59,7 +59,7 @@ export default function App() {
                 onClick={() => setActiveScreen('savings')}
                 className={`tab gap-2 transition-all duration-300 px-4 ${activeScreen === 'savings'
                   ? 'tab-active bg-success text-base-100 shadow-lg shadow-success/40'
-                  : 'text-base-content/60 hover:text-success hover:scale-105'
+                  : 'text-gray-50 hover:text-success hover:scale-105'
                   }`}
               >
                 <PiggyBank className={`w-4 h-4 transition-transform ${activeScreen === 'savings' ? 'scale-110' : ''

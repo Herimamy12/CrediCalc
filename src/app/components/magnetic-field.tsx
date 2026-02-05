@@ -1,143 +1,338 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react"
+import { cn } from "@/app/components/lib/utils"
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  connections: number[];
+export interface MagneticFieldBackgroundProps {
+  className?: string
+  children?: React.ReactNode
+  /** Number of particles (iron filings) */
+  particleCount?: number
+  /** Number of fixed magnetic poles */
+  poleCount?: number
+  /** Particle color */
+  particleColor?: string
+  /** Length of each filing line */
+  lineLength?: number
+  /** Line thickness */
+  lineWidth?: number
+  /** Overall opacity */
+  opacity?: number
+  /** Cursor magnetic strength */
+  cursorStrength?: number
+  /** Cursor polarity: 1 for north, -1 for south */
+  cursorPolarity?: number
+  /** Show continuous field lines */
+  showFieldLines?: boolean
+  /** Field line color */
+  fieldLineColor?: string
 }
 
-export function MagneticField() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const rafRef = useRef<number>();
+interface Pole {
+  x: number
+  y: number
+  strength: number
+  polarity: number // 1 or -1
+}
+
+interface Particle {
+  x: number
+  y: number
+}
+
+export function MagneticFieldBackground({
+  className,
+  children,
+  particleCount = 1500,
+  poleCount = 4,
+  particleColor = "rgba(180, 180, 200, 0.6)",
+  lineLength = 12,
+  lineWidth = 1.5,
+  opacity = 1,
+  cursorStrength = 2,
+  cursorPolarity = 1,
+  showFieldLines = false,
+  fieldLineColor = "rgba(100, 140, 255, 0.15)",
+}: MagneticFieldBackgroundProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvas = canvasRef.current
+    const container = containerRef.current
+    if (!canvas || !container) return
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
-    };
+    const rect = container.getBoundingClientRect()
+    let width = rect.width
+    let height = rect.height
+    const dpr = window.devicePixelRatio || 1
+    canvas.width = width * dpr
+    canvas.height = height * dpr
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+    ctx.scale(dpr, dpr)
 
-    const initParticles = () => {
-      const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
-      particlesRef.current = [];
+    let animationId: number
+    let mouseX = -10000
+    let mouseY = -10000
 
-      for (let i = 0; i < particleCount; i++) {
-        particlesRef.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          connections: [],
-        });
+    // Create fixed poles
+    const poles: Pole[] = []
+    for (let i = 0; i < poleCount; i++) {
+      const angle = (i / poleCount) * Math.PI * 2
+      const radius = Math.min(width, height) * 0.3
+      poles.push({
+        x: width / 2 + Math.cos(angle) * radius,
+        y: height / 2 + Math.sin(angle) * radius,
+        strength: 1 + Math.random() * 0.5,
+        polarity: i % 2 === 0 ? 1 : -1,
+      })
+    }
+
+    // Create particles (iron filings)
+    const particles: Particle[] = []
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+      })
+    }
+
+    // Calculate magnetic field vector at a point
+    const getFieldVector = (x: number, y: number): [number, number] => {
+      let bx = 0
+      let by = 0
+
+      // Contribution from fixed poles
+      for (const pole of poles) {
+        const dx = x - pole.x
+        const dy = y - pole.y
+        const distSq = dx * dx + dy * dy
+        const dist = Math.sqrt(distSq) + 1 // +1 to prevent division by zero
+
+        // Simplified dipole field (radial component)
+        const strength = (pole.strength * pole.polarity) / (dist * dist)
+        bx += (dx / dist) * strength
+        by += (dy / dist) * strength
       }
-    };
 
+      // Contribution from cursor (if active)
+      if (mouseX > -1000 && mouseY > -1000) {
+        const dx = x - mouseX
+        const dy = y - mouseY
+        const distSq = dx * dx + dy * dy
+        const dist = Math.sqrt(distSq) + 1
+
+        const strength = (cursorStrength * cursorPolarity) / (dist * dist)
+        bx += (dx / dist) * strength
+        by += (dy / dist) * strength
+      }
+
+      // Normalize
+      const mag = Math.sqrt(bx * bx + by * by) + 0.001
+      return [bx / mag, by / mag]
+    }
+
+    // Mouse handlers
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-    };
+      const rect = container.getBoundingClientRect()
+      mouseX = e.clientX - rect.left
+      mouseY = e.clientY - rect.top
+    }
 
-    const draw = () => {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const handleMouseLeave = () => {
+      mouseX = -10000
+      mouseY = -10000
+    }
 
-      const particles = particlesRef.current;
-      const mouse = mouseRef.current;
+    container.addEventListener("mousemove", handleMouseMove)
+    container.addEventListener("mouseleave", handleMouseLeave)
 
-      // Update and draw particles
-      particles.forEach((particle, i) => {
-        // Mouse interaction - magnetic attraction
-        const dx = mouse.x - particle.x;
-        const dy = mouse.y - particle.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < 200) {
-          const force = (200 - dist) / 200;
-          particle.vx += (dx / dist) * force * 0.05;
-          particle.vy += (dy / dist) * force * 0.05;
-        }
+    // Resize handler
+    const handleResize = () => {
+      const rect = container.getBoundingClientRect()
+      width = rect.width
+      height = rect.height
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      ctx.scale(dpr, dpr)
 
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+      // Reposition poles
+      for (let i = 0; i < poles.length; i++) {
+        const angle = (i / poles.length) * Math.PI * 2
+        const radius = Math.min(width, height) * 0.3
+        poles[i].x = width / 2 + Math.cos(angle) * radius
+        poles[i].y = height / 2 + Math.sin(angle) * radius
+      }
 
-        // Velocity damping
-        particle.vx *= 0.98;
-        particle.vy *= 0.98;
+      // Redistribute particles
+      for (const p of particles) {
+        p.x = Math.random() * width
+        p.y = Math.random() * height
+      }
+    }
 
-        // Boundary wrapping
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
+    const ro = new ResizeObserver(handleResize)
+    ro.observe(container)
 
-        // Draw connections (magnetic field lines)
-        particle.connections = [];
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx2 = particles[j].x - particle.x;
-          const dy2 = particles[j].y - particle.y;
-          const distance = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+    // Draw field lines
+    const drawFieldLines = () => {
+      if (!showFieldLines) return
 
-          if (distance < 120) {
-            particle.connections.push(j);
-            const opacity = (1 - distance / 120) * 0.3;
-            
-            // Gradient for magnetic field effect
-            const gradient = ctx.createLinearGradient(
-              particle.x, particle.y,
-              particles[j].x, particles[j].y
-            );
-            gradient.addColorStop(0, `rgba(15, 23, 42, ${opacity})`); // Navy
-            gradient.addColorStop(0.5, `rgba(6, 182, 212, ${opacity})`); // Cyan
-            gradient.addColorStop(1, `rgba(13, 148, 136, ${opacity})`); // Teal
+      ctx.strokeStyle = fieldLineColor
+      ctx.lineWidth = 1
 
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
+      // Start field lines from around each pole
+      for (const pole of poles) {
+        const lineCount = 12
+        for (let i = 0; i < lineCount; i++) {
+          const startAngle = (i / lineCount) * Math.PI * 2
+          let x = pole.x + Math.cos(startAngle) * 20
+          let y = pole.y + Math.sin(startAngle) * 20
+
+          ctx.beginPath()
+          ctx.moveTo(x, y)
+
+          // Trace field line
+          const direction = pole.polarity
+          for (let step = 0; step < 100; step++) {
+            const [fx, fy] = getFieldVector(x, y)
+            x += fx * 5 * direction
+            y += fy * 5 * direction
+
+            if (x < 0 || x > width || y < 0 || y > height) break
+
+            // Check if we're close to another pole
+            let nearPole = false
+            for (const p of poles) {
+              const dx = x - p.x
+              const dy = y - p.y
+              if (dx * dx + dy * dy < 400) {
+                nearPole = true
+                break
+              }
+            }
+            if (nearPole) break
+
+            ctx.lineTo(x, y)
           }
+
+          ctx.stroke()
         }
+      }
+    }
 
-        // Draw particle
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.4)';
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
-        ctx.fill();
-      });
+    // Animation
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height)
+      ctx.globalAlpha = opacity
 
-      rafRef.current = requestAnimationFrame(draw);
-    };
+      // Draw field lines first (background)
+      drawFieldLines()
 
-    resize();
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', handleMouseMove);
-    draw();
+      // Draw particles as aligned filings
+      ctx.strokeStyle = particleColor
+      ctx.lineWidth = lineWidth
+      ctx.lineCap = "round"
+
+      for (const particle of particles) {
+        const [fx, fy] = getFieldVector(particle.x, particle.y)
+
+        // Draw filing aligned to field
+        const halfLen = lineLength / 2
+        const x1 = particle.x - fx * halfLen
+        const y1 = particle.y - fy * halfLen
+        const x2 = particle.x + fx * halfLen
+        const y2 = particle.y + fy * halfLen
+
+        ctx.beginPath()
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke()
+      }
+
+      // Draw subtle glow at pole positions
+      for (const pole of poles) {
+        const gradient = ctx.createRadialGradient(pole.x, pole.y, 0, pole.x, pole.y, 50)
+        const color = pole.polarity > 0 ? "255, 100, 100" : "100, 100, 255"
+        gradient.addColorStop(0, `rgba(${color}, 0.1)`)
+        gradient.addColorStop(1, "transparent")
+        ctx.fillStyle = gradient
+        ctx.beginPath()
+        ctx.arc(pole.x, pole.y, 50, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      // Draw cursor pole indicator
+      if (mouseX > -1000 && mouseY > -1000) {
+        const gradient = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 80)
+        const color = cursorPolarity > 0 ? "255, 150, 100" : "100, 150, 255"
+        gradient.addColorStop(0, `rgba(${color}, 0.15)`)
+        gradient.addColorStop(1, "transparent")
+        ctx.fillStyle = gradient
+        ctx.beginPath()
+        ctx.arc(mouseX, mouseY, 80, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      animationId = requestAnimationFrame(animate)
+    }
+
+    animationId = requestAnimationFrame(animate)
 
     return () => {
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-    };
-  }, []);
+      cancelAnimationFrame(animationId)
+      container.removeEventListener("mousemove", handleMouseMove)
+      container.removeEventListener("mouseleave", handleMouseLeave)
+      ro.disconnect()
+    }
+  }, [
+    particleCount,
+    poleCount,
+    particleColor,
+    lineLength,
+    lineWidth,
+    opacity,
+    cursorStrength,
+    cursorPolarity,
+    showFieldLines,
+    fieldLineColor,
+  ])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'linear-gradient(to bottom, #f8fafc, #e2e8f0)' }}
-    />
-  );
+    <div
+      ref={containerRef}
+      className={cn("fixed inset-0 overflow-hidden bg-neutral-950", className)}
+    >
+      <canvas ref={canvasRef} className="absolute inset-0" />
+
+      {/* Subtle center glow */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 50%, rgba(120, 80, 200, 0.05) 0%, transparent 50%)",
+        }}
+      />
+
+      {/* Vignette */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(5,5,10,0.9) 100%)",
+        }}
+      />
+
+      {/* Content layer */}
+      {children && <div className="relative z-10 h-full w-full">{children}</div>}
+    </div>
+  )
+}
+
+export default function MagneticFieldBackgroundDemo() {
+  return <MagneticFieldBackground showFieldLines />
 }
