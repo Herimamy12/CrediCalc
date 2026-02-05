@@ -71,6 +71,7 @@ export function MagneticFieldBackground({
     canvas.height = height * dpr
     canvas.style.width = `${width}px`
     canvas.style.height = `${height}px`
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
     ctx.scale(dpr, dpr)
 
     let animationId: number
@@ -135,10 +136,18 @@ export function MagneticFieldBackground({
     }
 
     // Mouse handlers
-    const handleMouseMove = (e: MouseEvent) => {
+    const updateMouseFromEvent = (clientX: number, clientY: number) => {
       const rect = container.getBoundingClientRect()
-      mouseX = e.clientX - rect.left
-      mouseY = e.clientY - rect.top
+      mouseX = clientX - rect.left
+      mouseY = clientY - rect.top
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updateMouseFromEvent(e.clientX, e.clientY)
+    }
+
+    const handlePointerMove = (e: PointerEvent) => {
+      updateMouseFromEvent(e.clientX, e.clientY)
     }
 
     const handleMouseLeave = () => {
@@ -146,8 +155,10 @@ export function MagneticFieldBackground({
       mouseY = -10000
     }
 
-    container.addEventListener("mousemove", handleMouseMove)
-    container.addEventListener("mouseleave", handleMouseLeave)
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+    window.addEventListener("pointermove", handlePointerMove, { passive: true })
+    window.addEventListener("mouseleave", handleMouseLeave)
+    window.addEventListener("blur", handleMouseLeave)
 
     // Resize handler
     const handleResize = () => {
@@ -158,6 +169,7 @@ export function MagneticFieldBackground({
       canvas.height = height * dpr
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.scale(dpr, dpr)
 
       // Reposition poles
@@ -285,8 +297,10 @@ export function MagneticFieldBackground({
 
     return () => {
       cancelAnimationFrame(animationId)
-      container.removeEventListener("mousemove", handleMouseMove)
-      container.removeEventListener("mouseleave", handleMouseLeave)
+      window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("pointermove", handlePointerMove)
+      window.removeEventListener("mouseleave", handleMouseLeave)
+      window.removeEventListener("blur", handleMouseLeave)
       ro.disconnect()
     }
   }, [
