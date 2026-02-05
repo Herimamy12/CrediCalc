@@ -91,9 +91,9 @@ export function Dashboard() {
       </div>
 
       {/* Détails du Prêt */}
-      <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500">
+      <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-info/40 transition-all duration-500">
         <div className="card-body">
-          <h3 className="card-title text-primary flex items-center gap-2 mb-4">
+          <h3 className="card-title text-info flex items-center gap-2 mb-4">
             <Calculator className="w-6 h-6" />
             Loan Details ({loanStartFormatted})
           </h3>
@@ -123,7 +123,7 @@ export function Dashboard() {
       </div>
 
       {/* Current Month Summary */}
-      <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/5 backdrop-blur-[3px] border border-white/3">
+      <div className="stats stats-vertical lg:stats-horizontal shadow-2xl w-full bg-base-200/5 backdrop-blur-[3px] border border-white/30 hover:border-blue-400/40 transition-all duration-500">
         {/* Remaining Principal */}
         <div className="stat hover:bg-white/5 transition-all duration-300 cursor-pointer group">
           <div className="stat-figure text-slate-400 group-hover:scale-110 transition-transform duration-300">
@@ -160,10 +160,10 @@ export function Dashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Principal Evolution */}
-        <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500 group">
+        <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-info/40 transition-all duration-500 group">
           <div className="card-body">
-            <h3 className="card-title text-primary flex items-center gap-2">
-              <span className="w-3 h-3 bg-primary rounded-full animate-pulse"></span>
+            <h3 className="card-title text-info flex items-center gap-2">
+              <span className="w-3 h-3 bg-info rounded-full animate-pulse"></span>
               Principal Evolution (Recent Months)
             </h3>
             <ResponsiveContainer width="100%" height={400}>
