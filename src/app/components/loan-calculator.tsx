@@ -83,10 +83,10 @@ export function LoanCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input Form */}
         <div className="lg:col-span-1">
-          <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-primary/40 transition-all duration-500">
+          <div className="card bg-base-200/5 backdrop-blur-[3px] shadow-2xl border border-white/3 hover:border-info/40 transition-all duration-500">
             <div className="card-body space-y-4">
-              <h3 className="card-title text-accent flex items-center gap-2">
-                <span className="w-3 h-3 bg-accent rounded-full animate-pulse"></span>
+              <h3 className="card-title text-info flex items-center gap-2">
+                <span className="w-3 h-3 bg-info rounded-full animate-pulse"></span>
                 Loan Details
               </h3>
 
@@ -99,7 +99,7 @@ export function LoanCalculator() {
                   type="number"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(e.target.value)}
-                    className="input input-bordered input-primary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
+                    className="input input-bordered input-info w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="250000"
                 />
               </div>
@@ -114,7 +114,7 @@ export function LoanCalculator() {
                   step="0.1"
                   value={interestRate}
                   onChange={(e) => setInterestRate(e.target.value)}
-                    className="input input-bordered input-primary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
+                    className="input input-bordered input-info w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="4.5"
                 />
               </div>
@@ -128,7 +128,7 @@ export function LoanCalculator() {
                   type="number"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                    className="input input-bordered input-primary w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
+                    className="input input-bordered input-info w-full focus:scale-[1.02] transition-transform duration-200 font-bold text-lg bg-slate-900 border-slate-700 text-slate-100"
                   placeholder="30"
                 />
               </div>
@@ -137,7 +137,7 @@ export function LoanCalculator() {
               <div className="card-actions flex-col pt-4">
                 <button
                   onClick={calculateLoan}
-                  className="btn btn-primary btn-block gap-2 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-primary/50"
+                  className="btn btn-info btn-block gap-2 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-info/50"
                 >
                   <Calculator className="w-5 h-5" />
                   Calculate
@@ -251,14 +251,14 @@ export function LoanCalculator() {
 
           {/* Empty State */}
           {monthlyPayment === null && (
-            <div className="card bg-base-100/2 backdrop-blur-none shadow-2xl border border-primary/10 hover:border-primary/40 transition-all duration-500">
+            <div className="card bg-base-100/2 backdrop-blur-none shadow-2xl border border-info/10 hover:border-info/40 transition-all duration-500">
               <div className="card-body items-center text-center py-12">
                 <div className="avatar placeholder">
-                  <div className="bg-gradient-to-br from-primary to-accent text-primary-content rounded-full w-20 animate-pulse shadow-lg shadow-primary/50">
+                  <div className="bg-gradient-to-br from-info to-accent text-info-content rounded-full w-20 animate-pulse shadow-lg shadow-info/50">
                     <Calculator className="w-10 h-10" />
                   </div>
                 </div>
-                <h3 className="card-title text-primary mt-4">Ready to Calculate</h3>
+                <h3 className="card-title text-info mt-4">Ready to Calculate</h3>
                 <p className="text-gray-50/70 max-w-md">
                   Enter your loan details and click Calculate to see your monthly payment and amortization schedule
                 </p>

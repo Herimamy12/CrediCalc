@@ -16,7 +16,7 @@ export default function App() {
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="navbar bg-base-100/2 backdrop-blur-[3px] shadow-2xl border-b border-white/3 sticky top-0 z-50">
+        <div className="navbar bg-base-100/2 backdrop-blur-[3px] shadow-2xl border-b border-white/3 sticky top-0 z-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="navbar-start">
             <div className="flex items-center space-x-3">
               <div className="avatar placeholder">
